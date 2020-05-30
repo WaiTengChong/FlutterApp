@@ -72,26 +72,31 @@ class MyAppState extends State<StatefulWidget> {
                         itemCount: this.post != null ? this.post.length:0,
                         itemBuilder: (context, rowNumber) {
                           final post = this.post[rowNumber];
-                          return new Column(
-                            children: <Widget>[
-                              new Container(
-                                  width: 300,
-                                  margin: const EdgeInsets.only(
-                                      top: 5.0, bottom: 5.0),
-                                  child: Text(
-                                    post["userName"],
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(color: Color(0xff33a1c3)),
-                                  )),
-                              new Container(
-                                  width: 300,
-                                  child: new Text(
-                                    post["title"],
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(color: Color(0xffc8c0b9)),
-                                  )),
-                              new Divider(color: Color(0xff353433))
-                            ],
+                          return new GestureDetector(
+                            onTap: (){
+                              print("Container $rowNumber clicked");
+                            },
+                            child: Column(
+                              children: <Widget>[
+                                new Container(
+                                    width: 300,
+                                    margin: const EdgeInsets.only(
+                                        top: 5.0, bottom: 5.0),
+                                    child: Text(
+                                      post["userName"],
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(color: Color(0xff33a1c3)),
+                                    )),
+                                new Container(
+                                    width: 300,
+                                    child: new Text(
+                                      post["title"],
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(color: Color(0xffc8c0b9)),
+                                    )),
+                                new Divider(color: Color(0xff353433))
+                              ],
+                            )
                           );
                         },
                       ))));
