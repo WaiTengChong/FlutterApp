@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -73,7 +71,11 @@ class MyAppState extends State<StatefulWidget> {
                               final post = this.post[rowNumber];
                               return new GestureDetector(
                                   onTap: () {
-                                    print("Container $rowNumber clicked");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Post()),
+                                    );
                                   },
                                   child: Column(
                                     children: <Widget>[
@@ -100,5 +102,24 @@ class MyAppState extends State<StatefulWidget> {
                                   ));
                             },
                           )))));
+  }
+}
+
+class Post extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Second Route"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Go back!'),
+        ),
+      ),
+    );
   }
 }
