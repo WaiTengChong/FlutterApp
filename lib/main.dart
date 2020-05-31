@@ -32,17 +32,20 @@ class MyAppState extends State<StatefulWidget> {
       final map = json.decode(response.body);
       final mapPost = map["post"];
 
-
-
-//      mapPost.forEach((it) {
-//        print(it["userName"]);
-//      });
-
       setState(() {
         _isLoading = false;
         this.post = mapPost;
       });
     }
+  }
+
+  Future<void> refresh() {
+    print("Reloading...");
+    setState(() {
+      _isLoading = true;
+    });
+    _fetchData();
+    return Future.value();
   }
 
   @override
@@ -55,50 +58,47 @@ class MyAppState extends State<StatefulWidget> {
               backgroundColor: Color(0xff1d1d1d),
               actions: <Widget>[
                 new IconButton(
-                    icon: new Icon(Icons.refresh),
-                    onPressed: () {
-                      print("Reloading...");
-                      setState(() {
-                        _isLoading = true;
-                      });
-                      _fetchData();
-                    })
+                    icon: new Icon(Icons.refresh), onPressed: refresh)
               ],
             ),
-            body: new Center(
-                child: _isLoading
-                    ? new CircularProgressIndicator()
-                    : new ListView.builder(
-                        itemCount: this.post != null ? this.post.length:0,
-                        itemBuilder: (context, rowNumber) {
-                          final post = this.post[rowNumber];
-                          return new GestureDetector(
-                            onTap: (){
-                              print("Container $rowNumber clicked");
+            body: RefreshIndicator(
+                onRefresh: refresh,
+                child: new Center(
+                    child: _isLoading
+                        ? new CircularProgressIndicator()
+                        : new ListView.builder(
+                            physics: AlwaysScrollableScrollPhysics(),
+                            itemCount: this.post != null ? this.post.length : 0,
+                            itemBuilder: (context, rowNumber) {
+                              final post = this.post[rowNumber];
+                              return new GestureDetector(
+                                  onTap: () {
+                                    print("Container $rowNumber clicked");
+                                  },
+                                  child: Column(
+                                    children: <Widget>[
+                                      new Container(
+                                          width: 300,
+                                          margin: const EdgeInsets.only(
+                                              top: 5.0, bottom: 5.0),
+                                          child: Text(
+                                            post["userName"],
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                color: Color(0xff33a1c3)),
+                                          )),
+                                      new Container(
+                                          width: 300,
+                                          child: new Text(
+                                            post["title"],
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                color: Color(0xffc8c0b9)),
+                                          )),
+                                      new Divider(color: Color(0xff353433))
+                                    ],
+                                  ));
                             },
-                            child: Column(
-                              children: <Widget>[
-                                new Container(
-                                    width: 300,
-                                    margin: const EdgeInsets.only(
-                                        top: 5.0, bottom: 5.0),
-                                    child: Text(
-                                      post["userName"],
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(color: Color(0xff33a1c3)),
-                                    )),
-                                new Container(
-                                    width: 300,
-                                    child: new Text(
-                                      post["title"],
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(color: Color(0xffc8c0b9)),
-                                    )),
-                                new Divider(color: Color(0xff353433))
-                              ],
-                            )
-                          );
-                        },
-                      ))));
+                          )))));
   }
 }
