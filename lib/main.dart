@@ -21,7 +21,7 @@ class MyAppState extends State<StatefulWidget> {
   _fetchData() async {
     print("Attempting to fetch data from api");
 
-    final url = "http://127.0.0.1:3000/flutter";
+    final url = "http://127.0.0.1:3000/json";
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -52,7 +52,7 @@ class MyAppState extends State<StatefulWidget> {
         home: new Scaffold(
             backgroundColor: Color(0xff1d1d1d),
             appBar: new AppBar(
-              title: new Text("MyApp bar"),
+              title: new Text("Posts"),
               backgroundColor: Color(0xff1d1d1d),
               actions: <Widget>[
                 new IconButton(
@@ -74,7 +74,7 @@ class MyAppState extends State<StatefulWidget> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Post()),
+                                          builder: (context) => Post(post)),
                                     );
                                   },
                                   child: Column(
@@ -106,20 +106,38 @@ class MyAppState extends State<StatefulWidget> {
 }
 
 class Post extends StatelessWidget {
+  final detials;
+  Post(this.detials);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff1d1d1d),
       appBar: AppBar(
-        title: Text("Second Route"),
+        backgroundColor: Color(0xff1d1d1d),
+        title: Text(detials["title"]),
       ),
       body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back!'),
-        ),
-      ),
+          child: Column(
+        children: <Widget>[
+          new Container(
+              width: 300,
+              margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+              child: Text(
+                detials["userName"],
+                textAlign: TextAlign.start,
+                style: TextStyle(color: Color(0xff33a1c3)),
+              )),
+          new Container(
+              width: 300,
+              child: new Text(
+                detials["body"],
+                textAlign: TextAlign.start,
+                style: TextStyle(color: Color(0xffc8c0b9)),
+              )),
+          new Divider(color: Color(0xff353433))
+        ],
+      )),
     );
   }
 }
