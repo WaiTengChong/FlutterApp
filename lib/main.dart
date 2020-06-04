@@ -115,21 +115,24 @@ class Post extends StatelessWidget {
       backgroundColor: Color(0xff1d1d1d),
       appBar: AppBar(
         backgroundColor: Color(0xff1d1d1d),
-        title: Text(detials["title"]),
+        title: Text(detials["userName"]),
       ),
       body: Center(
           child: Column(
         children: <Widget>[
           new Container(
-              width: 300,
-              margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+          width: double.infinity,
+              margin: const EdgeInsets.only(top: 30, left : 20),
               child: Text(
-                detials["userName"],
+                detials["title"],
                 textAlign: TextAlign.start,
                 style: TextStyle(color: Color(0xff33a1c3)),
               )),
           new Container(
-              width: 300,
+          width: double.infinity,
+            padding: const EdgeInsets.all(15),
+              color: Color(0xff222222),
+              margin: const EdgeInsets.only(top: 20),
               child: new Text(
                 detials["body"],
                 textAlign: TextAlign.start,
