@@ -21,7 +21,7 @@ class MyAppState extends State<StatefulWidget> {
   _fetchData() async {
     print("Attempting to fetch data from api");
 
-    final url = "http://127.0.0.1:3000/json";
+    final url = "https://private-7e9736-flutter3.apiary-mock.com/post";
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
