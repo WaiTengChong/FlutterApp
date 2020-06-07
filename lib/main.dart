@@ -121,16 +121,16 @@ class Post extends StatelessWidget {
           child: Column(
         children: <Widget>[
           new Container(
-          width: double.infinity,
-              margin: const EdgeInsets.only(top: 30, left : 20),
+              width: double.infinity,
+              margin: const EdgeInsets.only(top: 30, left: 20),
               child: Text(
                 detials["title"],
                 textAlign: TextAlign.start,
                 style: TextStyle(color: Color(0xff33a1c3)),
               )),
           new Container(
-          width: double.infinity,
-            padding: const EdgeInsets.all(15),
+              width: double.infinity,
+              padding: const EdgeInsets.all(15),
               color: Color(0xff222222),
               margin: const EdgeInsets.only(top: 20),
               child: new Text(
@@ -138,7 +138,23 @@ class Post extends StatelessWidget {
                 textAlign: TextAlign.start,
                 style: TextStyle(color: Color(0xffc8c0b9)),
               )),
-          new Divider(color: Color(0xff353433))
+          new Divider(color: Color(0xff353433)),
+          new ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: AlwaysScrollableScrollPhysics(),
+              itemCount: detials["image"] != null ? detials["image"].length : 0,
+              itemBuilder: (context, rowNumber) {
+                final image = detials["image"][rowNumber];
+                return new Container(
+                  margin: const EdgeInsets.only(top: 10.0),
+                  child: new Image.network(
+                    image,
+                    height: 200,
+                    width: 200,
+                  ),
+                );
+              })
         ],
       )),
     );
