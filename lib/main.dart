@@ -7,7 +7,7 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatefulWidget { //TODO: learn here and stateless
   @override
   State<StatefulWidget> createState() {
     return MyAppState();
@@ -46,6 +46,16 @@ class MyAppState extends State<StatefulWidget> {
     return Future.value();
   }
 
+  Future<void> addItem() {
+    print("Add items");
+    return Future.value();
+  }
+
+  Future<void> search() {
+    print("Search");
+    return Future.value();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -56,7 +66,11 @@ class MyAppState extends State<StatefulWidget> {
               backgroundColor: Color(0xff1d1d1d),
               actions: <Widget>[
                 new IconButton(
-                    icon: new Icon(Icons.refresh), onPressed: refresh)
+                    icon: new Icon(Icons.refresh), onPressed: refresh),
+                new IconButton(
+                    icon: new Icon(Icons.add, color: Colors.white), onPressed: addItem), 
+                new IconButton(
+                    icon: new Icon(Icons.search, color: Colors.white), onPressed: addItem)
               ],
             ),
             body: RefreshIndicator(
