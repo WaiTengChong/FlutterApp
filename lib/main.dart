@@ -7,14 +7,106 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
-  State<StatefulWidget> createState() {
-    return MyAppState();
+  Widget build(BuildContext context) {
+    var routes = <String, WidgetBuilder>{
+      AllPost.routeName: (BuildContext context) => new AllPost(),
+      LoginPage.routeName: (BuildContext context) => new LoginPage()
+    };
+    return new MaterialApp(
+      title: 'Flutter Demo',
+      theme: new ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: new LoginPage(),
+      routes: routes,
+    );
   }
 }
 
-class MyAppState extends State<StatefulWidget> {
+class LoginPage extends StatefulWidget {
+  static const String routeName = "/LoginPage";
+
+  @override
+  _LoginPageState createState() => new _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final myController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    myController.addListener(_printLatestValue);
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    // This also removes the _printLatestValue listener.
+    myController.dispose();
+    super.dispose();
+  }
+
+  _printLatestValue() {
+    print("Second text field: ${myController.text}");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+        home: Scaffold(
+            backgroundColor: Color(0xff1d1d1d),
+            appBar: new AppBar(
+              title: new Text("Login"),
+              backgroundColor: Color(0xff1d1d1d),
+            ),
+            body: new Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: <Widget>[
+                    TextField(
+                      onChanged: (text) {
+                        print("First text field: $text");
+                      },
+                    ),
+                    TextField(
+                      controller: myController,
+                    ),
+                    FlatButton.icon(
+                        icon: Icon(Icons.refresh),
+                        color: Colors.white,
+                        onPressed: () {
+                          Navigator.pushNamed(context, AllPost.routeName);
+                        },
+                        label: Text(
+                          "My Orders",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            // decoration: TextDecoration.underline,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).accentColor,
+                          ),
+                        ))
+                  ],
+                ),
+              ),
+            )));
+  }
+}
+
+class AllPost extends StatefulWidget {
+  static const String routeName = "/AllPost";
+
+  @override
+  _AllPostState createState() => new _AllPostState();
+}
+
+class _AllPostState extends State<StatefulWidget> {
   var _isLoading = true;
   var post;
 
@@ -52,6 +144,10 @@ class MyAppState extends State<StatefulWidget> {
         home: new Scaffold(
             backgroundColor: Color(0xff1d1d1d),
             appBar: new AppBar(
+              leading: new IconButton(
+                icon: new Icon(Icons.arrow_back),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
               title: new Text("Posts"),
               backgroundColor: Color(0xff1d1d1d),
               actions: <Widget>[
@@ -72,10 +168,9 @@ class MyAppState extends State<StatefulWidget> {
                               return new GestureDetector(
                                   onTap: () {
                                     Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Post(post)),
-                                    );
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Post(post)));
                                   },
                                   child: Column(
                                     children: <Widget>[
@@ -106,6 +201,8 @@ class MyAppState extends State<StatefulWidget> {
 }
 
 class Post extends StatelessWidget {
+  static const String routeName = "/Post";
+
   final detials;
   Post(this.detials);
 
@@ -142,7 +239,7 @@ class Post extends StatelessWidget {
           new ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              physics: AlwaysScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: detials["image"] != null ? detials["image"].length : 0,
               itemBuilder: (context, rowNumber) {
                 final image = detials["image"][rowNumber];
