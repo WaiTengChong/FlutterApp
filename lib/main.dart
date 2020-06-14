@@ -113,14 +113,15 @@ class _AllPostState extends State<StatefulWidget> {
   _fetchData() async {
     print("Attempting to fetch data from api");
 
-    final url = "https://private-7e9736-flutter3.apiary-mock.com/post";
+    final url =
+        "https://jzleyu8iq3.execute-api.eu-west-2.amazonaws.com/dev/posts";
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
       print(response.body);
 
       final map = json.decode(response.body);
-      final mapPost = map["post"];
+      final mapPost = map;
 
       setState(() {
         _isLoading = false;

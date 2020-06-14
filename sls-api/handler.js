@@ -26,12 +26,14 @@ module.exports.createPost = (event, context, callback) => {
     !reqBody.title ||
     reqBody.title.trim() === '' ||
     !reqBody.body ||
-    reqBody.body.trim() === ''
+    reqBody.body.trim() === ''  ||
+    !reqBody.userName ||
+    reqBody.userName.trim() === ''
   ) {
     return callback(
       null,
       response(400, {
-        error: 'Post must have a title and body and they must not be empty'
+        error: 'Post must have a title, body and userName, they must not be empty'
       })
     );
   }
@@ -39,7 +41,7 @@ module.exports.createPost = (event, context, callback) => {
   const post = {
     id: uuid(),
     createdAt: new Date().toISOString(),
-    userId: 1,
+    userName: reqBody.userName,
     title: reqBody.title,
     body: reqBody.body,
     image:reqBody.image
