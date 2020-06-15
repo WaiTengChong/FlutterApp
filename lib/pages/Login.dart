@@ -21,8 +21,6 @@ class _LoginState extends State<Login> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is removed from the widget tree.
-    // This also removes the _printLatestValue listener.
     myController.dispose();
     super.dispose();
   }
@@ -63,7 +61,6 @@ class _LoginState extends State<Login> {
                           "My Orders",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            // decoration: TextDecoration.underline,
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).accentColor,
