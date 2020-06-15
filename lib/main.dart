@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: pages,
         ),
         bottomNavigationBar: Container(
-          margin: EdgeInsets.only(bottom: 20),
+          margin: EdgeInsets.only(bottom: 15),
           child: new TabBar(
             tabs: [
               Tab(
