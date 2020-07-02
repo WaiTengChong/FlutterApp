@@ -55,10 +55,10 @@ class _AllPostState extends State<AllPost>
         home: new Scaffold(
             backgroundColor: Color(0xff1d1d1d),
             appBar: new AppBar(
-              // leading: new IconButton(
-              //   icon: new Icon(Icons.arrow_back),
+               leading: new IconButton(
+                 icon: new Icon(Icons.add, color: Color(0xffc8c0b9)),
               //   onPressed: () => Navigator.of(context).pop(),
-              // ),
+               ),
               title: new Text("Posts"),
               backgroundColor: Color(0xff1d1d1d),
               actions: <Widget>[
