@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/AllPost.dart';
 import 'pages/Login.dart';
+import 'pages/AddPost.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Post',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        primaryColorDark: Colors.red,
       ),
       home: MyHomePage(),
     );
@@ -24,7 +26,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Widget> pages = [Login(), AllPost()];
+  List<Widget> pages = [Login(), AllPost(), AddPost()];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -45,8 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: Icon(Icons.search),
               )
             ],
-            unselectedLabelColor: Colors.black,
-            labelColor: Colors.blue,
+            unselectedLabelColor: Colors.grey,
+            labelColor: Colors.black,
             indicatorColor: Colors.transparent,
           ),
         ),
