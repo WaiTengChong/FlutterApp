@@ -14,12 +14,20 @@ class AllPost extends StatefulWidget {
 
 class _AllPostState extends State<AllPost>
     with AutomaticKeepAliveClientMixin<AllPost> {
-  var _isLoading = true;
+  var _isLoading = false;
   var post;
 
   //This is to set the page not reload when changing tab to tab
   @override
   bool get wantKeepAlive => true;
+
+    @override
+  void initState() {
+    refresh().then((value){
+      print('Async done');
+    });
+    super.initState();
+  }
 
   _fetchData() async {
     print("Attempting to fetch data from api");
@@ -68,47 +76,43 @@ class _AllPostState extends State<AllPost>
                     icon: new Icon(Icons.refresh), onPressed: refresh)
               ],
             ),
-            body: RefreshIndicator(
+            body: new RefreshIndicator(
                 onRefresh: refresh,
                 child: new Center(
-                    child: _isLoading
-                        ? new CircularProgressIndicator()
-                        : new ListView.builder(
-                            physics: AlwaysScrollableScrollPhysics(),
-                            itemCount: this.post != null ? this.post.length : 0,
-                            itemBuilder: (context, rowNumber) {
-                              final post = this.post[rowNumber];
-                              return new GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Post(post)));
-                                  },
-                                  child: Column(
-                                    children: <Widget>[
-                                      new Container(
-                                          width: 300,
-                                          margin: const EdgeInsets.only(
-                                              top: 5.0, bottom: 5.0),
-                                          child: Text(
-                                            post["userName"],
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                                color: Color(0xff33a1c3)),
-                                          )),
-                                      new Container(
-                                          width: 300,
-                                          child: new Text(
-                                            post["title"],
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                                color: Color(0xffc8c0b9)),
-                                          )),
-                                      new Divider(color: Color(0xff353433))
-                                    ],
-                                  ));
-                            },
-                          )))));
+                    child: new ListView.builder(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  itemCount: this.post != null ? this.post.length : 0,
+                  itemBuilder: (context, rowNumber) {
+                    final post = this.post[rowNumber];
+                    return new GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Post(post)));
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            new Container(
+                                width: 300,
+                                margin: const EdgeInsets.only(
+                                    top: 5.0, bottom: 5.0),
+                                child: Text(
+                                  post["userName"],
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(color: Color(0xff33a1c3)),
+                                )),
+                            new Container(
+                                width: 300,
+                                child: new Text(
+                                  post["title"],
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(color: Color(0xffc8c0b9)),
+                                )),
+                            new Divider(color: Color(0xff353433))
+                          ],
+                        ));
+                  },
+                )))));
   }
 }
