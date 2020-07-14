@@ -1,6 +1,6 @@
 # flutterapp
 
-A new Flutter application.
+A platform for second hand market for both iOS and Android.
 
 ## Getting Started
 
