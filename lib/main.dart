@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/AllPost.dart';
 import 'pages/Login.dart';
-import 'pages/AddPost.dart';
 
 void main() => runApp(MyApp());
 
@@ -37,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: pages,
         ),
         bottomNavigationBar: Container(
-          margin: EdgeInsets.only(bottom: 15),
+          color: Colors.grey[900],
           child: new TabBar(
             tabs: [
               Tab(
@@ -48,8 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ],
             unselectedLabelColor: Colors.grey,
-            labelColor: Colors.black,
-            indicatorColor: Colors.transparent,
+            labelColor: Colors.white,
+            indicatorColor: Colors.white,
           ),
         ),
       ),

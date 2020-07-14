@@ -21,9 +21,9 @@ class _AllPostState extends State<AllPost>
   @override
   bool get wantKeepAlive => true;
 
-    @override
+  @override
   void initState() {
-    refresh().then((value){
+    refresh().then((value) {
       print('Async done');
     });
     super.initState();
@@ -62,7 +62,7 @@ class _AllPostState extends State<AllPost>
   Widget build(BuildContext context) {
     return new MaterialApp(
         home: new Scaffold(
-            backgroundColor: Color(0xff1d1d1d),
+            backgroundColor: Color(0xff121112),
             appBar: new AppBar(
               leading: new IconButton(
                 icon: new Icon(Icons.add, color: Color(0xffc8c0b9)),
@@ -70,7 +70,7 @@ class _AllPostState extends State<AllPost>
                     MaterialPageRoute(builder: (context) => AddPost())),
               ),
               title: new Text("Posts"),
-              backgroundColor: Color(0xff1d1d1d),
+              backgroundColor: Color(0xff121112),
               actions: <Widget>[
                 new IconButton(
                     icon: new Icon(Icons.refresh), onPressed: refresh)
@@ -100,16 +100,17 @@ class _AllPostState extends State<AllPost>
                                 child: Text(
                                   post["userName"],
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(color: Color(0xff33a1c3)),
+                                  style: TextStyle(color: Color(0xff848484)),
                                 )),
                             new Container(
                                 width: 300,
                                 child: new Text(
                                   post["title"],
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(color: Color(0xffc8c0b9)),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
                                 )),
-                            new Divider(color: Color(0xff353433))
+                            new Divider(color: Color(0xff232323))
                           ],
                         ));
                   },
