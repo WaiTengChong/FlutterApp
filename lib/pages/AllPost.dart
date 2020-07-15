@@ -61,16 +61,17 @@ class _AllPostState extends State<AllPost>
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: new Scaffold(
-            backgroundColor: Color(0xff121112),
+            backgroundColor: Color(0xff191919),
             appBar: new AppBar(
               leading: new IconButton(
-                icon: new Icon(Icons.add, color: Color(0xffc8c0b9)),
+                icon: new Icon(Icons.add, color: Colors.white),
                 onPressed: () => Navigator.push(context,
                     MaterialPageRoute(builder: (context) => AddPost())),
               ),
               title: new Text("Posts"),
-              backgroundColor: Color(0xff121112),
+              backgroundColor: Color(0xff1d1d1d),
               actions: <Widget>[
                 new IconButton(
                     icon: new Icon(Icons.refresh), onPressed: refresh)

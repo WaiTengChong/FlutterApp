@@ -68,10 +68,16 @@ class AddPost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff1d1d1d),
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Color(0xff191919),
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff1d1d1d),
-        title: Text("Add Post"),
+        title: Text(
+          "Add Post",
+          textAlign: TextAlign.start,
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: SingleChildScrollView(
           child: Column(
