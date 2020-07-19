@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutterapp/link.dart';
+import 'package:flutterapp/globals.dart' as globals;
 
 class AddPost extends StatelessWidget {
   static const String routeName = "/AddPost";
@@ -15,13 +17,14 @@ class AddPost extends StatelessWidget {
   _postData(context) async {
     print("Attempting to fetch data from api");
 
-    final url =
-        "https://jzleyu8iq3.execute-api.eu-west-2.amazonaws.com/dev/post";
-
     print("data = " + contentController.text);
 
+    var userName = "Unknown User";
+    if (globals.globalUserName != "") {
+      userName = globals.globalUserName;
+    }
     Map data = {
-      'userName': "Testing",
+      'userName': userName,
       'title': titleController.text,
       'body': contentController.text
     };
@@ -30,7 +33,7 @@ class AddPost extends StatelessWidget {
     var body = json.encode(data);
     print(body);
 
-    final response = await http.post(url,
+    final response = await http.post(addPostLink,
         headers: {"Content-Type": "application/json"}, body: body);
 
     if (response.statusCode == 201) {

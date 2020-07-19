@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutterapp/pages/Post.dart';
 import 'package:flutterapp/pages/AddPost.dart';
+import 'package:flutterapp/link.dart';
 
 class AllPost extends StatefulWidget {
   static const String routeName = "/AllPost";
@@ -32,9 +33,7 @@ class _AllPostState extends State<AllPost>
   _fetchData() async {
     print("Attempting to fetch data from api");
 
-    final url =
-        "https://jzleyu8iq3.execute-api.eu-west-2.amazonaws.com/dev/posts";
-    final response = await http.get(url);
+    final response = await http.get(getPostLink);
 
     if (response.statusCode == 200) {
       print(response.body);

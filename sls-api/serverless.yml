@@ -3,6 +3,7 @@ service: sls-api
 custom:
   settings:
     POSTS_TABLE: posts
+    USERS_TABLE: users
 
 provider:
   name: aws
@@ -13,6 +14,7 @@ provider:
    - Effect: "Allow"
      Action:
         - dynamodb:DescribeTable
+        - dynamodb:Query
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
@@ -20,6 +22,7 @@ provider:
         - dynamodb:DeleteItem
      Resource:
       - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.POSTS_TABLE}"
+      - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.USERS_TABLE}"
  
 functions:
   createPost:
@@ -58,6 +61,18 @@ functions:
     - http:
         path: /post/{id}
         method: delete
+  createUser:
+    handler: handler.createUser
+    events:
+    - http:
+        path: /user
+        method: post
+  getUser:
+    handler: handler.getUser
+    events:
+    - http:
+        path: /user/{userName}/{password}
+        method: get
         
 resources:
   Resources:
@@ -74,4 +89,17 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:custom.settings.POSTS_TABLE}
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+        - AttributeName: "userName"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "userName"
+          KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.settings.USERS_TABLE}
 
