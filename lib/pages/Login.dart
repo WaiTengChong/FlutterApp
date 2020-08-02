@@ -29,9 +29,11 @@ class _LoginState extends State<Login>
 
   @override
   void initState() {
-    login().then((value) {
-      print('Async done');
-    });
+    if (globals.globalUserName != "") {
+      login().then((value) {
+        print('Async done');
+      });
+    }
     super.initState();
   }
 
@@ -43,7 +45,7 @@ class _LoginState extends State<Login>
         userNameController.text +
         "/" +
         passwordController.text;
-    print(url);
+
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -52,7 +54,7 @@ class _LoginState extends State<Login>
       final userDetail = json.decode(response.body);
 
       setState(() {
-        _loggedIn = false;
+        _loggedIn = true;
         this.userDetail = userDetail;
         globals.globalUserName = userDetail["userName"];
       });
@@ -82,16 +84,25 @@ class _LoginState extends State<Login>
   }
 
   Future<void> login() {
-    print("Reloading...");
+    print("Loging in...");
     _fetchData();
+
+    return Future.value();
+  }
+
+    Future<void> logout() {
+    print("Loging out...");
+    globals.globalUserName = "";
     setState(() {
-      _loggedIn = true;
+      _loggedIn = false;
     });
+    initState();
     return Future.value();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); //必须添加
     return new MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
@@ -102,84 +113,99 @@ class _LoginState extends State<Login>
               backgroundColor: Color(0xff1d1d1d),
             ),
             body: new Center(
-              child: _loggedIn
-                  ? new Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: new Column(children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(top: 70),
+                child: _loggedIn
+                    ? new Column(children: <Widget>[
+                        Text(
+                          "Welcome back " + userDetail["userName"] + "!",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(color: Color(0xff848484)),
                         ),
-                        Column(
-                          children: <Widget>[
-                            TextField(
-                              autofocus: false,
+                        FlatButton.icon(
+                            icon: Icon(Icons.arrow_right),
+                            color: Colors.white,
+                            onPressed: logout,
+                            label: Text(
+                              "Logout",
+                              textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 22.0, color: Color(0xff191919)),
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Username',
-                                contentPadding: const EdgeInsets.only(
-                                    left: 14.0, bottom: 8.0, top: 8.0),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(25.7),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(25.7),
-                                ),
-                              ),
-                              controller: userNameController,
-                            ),
-                            Container(
-                                margin: const EdgeInsets.only(top: 30),
-                                child: TextField(
-                                  autofocus: false,
-                                  style: TextStyle(
-                                      fontSize: 22.0, color: Color(0xFFbdc6cf)),
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    hintText: 'Pasword',
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 14.0, bottom: 8.0, top: 8.0),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.white),
-                                      borderRadius: BorderRadius.circular(25.7),
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.white),
-                                      borderRadius: BorderRadius.circular(25.7),
-                                    ),
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff191919)),
+                            ))
+                      ])
+                    : new Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: new Column(children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.only(top: 70),
+                          ),
+                          Column(
+                            children: <Widget>[
+                              TextField(
+                                autofocus: false,
+                                style: TextStyle(
+                                    fontSize: 22.0, color: Color(0xff191919)),
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  hintText: 'Username',
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 8.0, top: 8.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(25.7),
                                   ),
-                                  controller: passwordController,
-                                )),
-                            Container(
-                                margin: const EdgeInsets.only(top: 30),
-                                child: FlatButton.icon(
-                                    icon: Icon(Icons.arrow_right),
-                                    color: Colors.white,
-                                    onPressed: login,
-                                    label: Text(
-                                      "Login",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xff191919)),
-                                    )))
-                          ],
-                        ),
-                      ]))
-                  : new Container(
-                      child: Text(
-                        "Welcome back " + userDetail["userName"] + "!",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(color: Color(0xff848484)),
-                      )),
-            )));
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(25.7),
+                                  ),
+                                ),
+                                controller: userNameController,
+                              ),
+                              Container(
+                                  margin: const EdgeInsets.only(top: 30),
+                                  child: TextField(
+                                    autofocus: false,
+                                    style: TextStyle(
+                                        fontSize: 22.0,
+                                        color: Color(0xFFbdc6cf)),
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      hintText: 'Pasword',
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 14.0, bottom: 8.0, top: 8.0),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(25.7),
+                                      ),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(25.7),
+                                      ),
+                                    ),
+                                    controller: passwordController,
+                                  )),
+                              Container(
+                                  margin: const EdgeInsets.only(top: 30),
+                                  child: FlatButton.icon(
+                                      icon: Icon(Icons.arrow_right),
+                                      color: Colors.white,
+                                      onPressed: login,
+                                      label: Text(
+                                        "Login",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xff191919)),
+                                      )))
+                            ],
+                          ),
+                        ])))));
   }
 }
