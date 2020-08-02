@@ -59,6 +59,7 @@ class _AllPostState extends State<AllPost>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return new MaterialApp(
         debugShowCheckedModeBanner: false,
         home: new Scaffold(
