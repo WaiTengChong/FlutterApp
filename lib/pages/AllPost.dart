@@ -92,28 +92,38 @@ class _AllPostState extends State<AllPost>
                               MaterialPageRoute(
                                   builder: (context) => Post(post)));
                         },
-                        child: Column(
-                          children: <Widget>[
-                            new Container(
-                                width: 300,
-                                margin: const EdgeInsets.only(
-                                    top: 5.0, bottom: 5.0),
-                                child: Text(
-                                  post["userName"],
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(color: Color(0xff848484)),
+                        child: new Container(
+                            decoration: new BoxDecoration(
+                                color: Color(0xff222222),
+                                borderRadius: new BorderRadius.all(
+                                  const Radius.circular(10.0),
                                 )),
-                            new Container(
-                                width: 300,
-                                child: new Text(
-                                  post["title"],
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                )),
-                            new Divider(color: Color(0xff232323))
-                          ],
-                        ));
+                            margin: const EdgeInsets.only(
+                                top: 20, left: 20, right: 20),
+                            padding: const EdgeInsets.only(top: 15, left: 20),
+                            child: Column(
+                              children: <Widget>[
+                                new Container(
+                                    width: 300,
+                                    margin: const EdgeInsets.only(
+                                        top: 5.0, bottom: 5.0),
+                                    child: Text(
+                                      post["userName"],
+                                      textAlign: TextAlign.start,
+                                      style:
+                                          TextStyle(color: Color(0xff848484)),
+                                    )),
+                                new Container(
+                                    width: 300,
+                                    child: new Text(
+                                      post["title"],
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18),
+                                    )),
+                                new Divider(color: Color(0xff232323))
+                              ],
+                            )));
                   },
                 )))));
   }

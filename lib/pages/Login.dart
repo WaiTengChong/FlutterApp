@@ -90,7 +90,7 @@ class _LoginState extends State<Login>
     return Future.value();
   }
 
-    Future<void> logout() {
+  Future<void> logout() {
     print("Loging out...");
     globals.globalUserName = "";
     setState(() {
