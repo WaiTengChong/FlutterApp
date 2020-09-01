@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutterapp/link.dart';
-import 'package:flutterapp/globals.dart' as globals;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddPost extends StatelessWidget {
   static const String routeName = "/AddPost";
@@ -20,8 +20,13 @@ class AddPost extends StatelessWidget {
     print("data = " + contentController.text);
 
     var userName = "Unknown User";
-    if (globals.globalUserName != "") {
-      userName = globals.globalUserName;
+      final prefs = await SharedPreferences.getInstance();
+
+      print('checked loggedIn Value saved -- ' + (prefs.getString('userName')));
+      var result = prefs.getString('userName');
+
+    if (result != "") {
+      userName = result;
     }
     Map data = {
       'userName': userName,
