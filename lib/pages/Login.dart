@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutterapp/link.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutterapp/pages/SignUp.dart';
 
 class Login extends StatefulWidget {
   static const String routeName = "/Login";
@@ -222,6 +223,23 @@ class _LoginState extends State<Login>
                                     onPressed: login,
                                     label: Text(
                                       "Login",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xff191919)),
+                                    ))),
+                            Container(
+                                margin: const EdgeInsets.only(top: 30),
+                                child: FlatButton.icon(
+                                    icon: Icon(Icons.arrow_right),
+                                    color: Colors.white,
+                                    onPressed: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Signup())),
+                                    label: Text(
+                                      "Sign Up",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 25,
