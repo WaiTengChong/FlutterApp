@@ -8,10 +8,11 @@ class Signup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Color(0xff191919),
+        appBar: new AppBar(
+          title: new Text("Sign Up"),
           backgroundColor: Color(0xff1d1d1d),
-          title: Text("Sign Up"),
         ),
         body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -69,7 +70,10 @@ class Signup extends StatelessWidget {
                       child: FlatButton.icon(
                           icon: Icon(Icons.arrow_right),
                           color: Colors.white,
-                          //onPressed: login,
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Signup())),
                           label: Text(
                             "Sign up",
                             textAlign: TextAlign.center,
