@@ -18,7 +18,7 @@ class _LoginState extends State<Login>
     with AutomaticKeepAliveClientMixin<Login> {
   var userName = "";
   var password = "";
-
+  Future<bool> loggedIn;
   TextEditingController userNameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   var userDetail;
@@ -30,6 +30,7 @@ class _LoginState extends State<Login>
   @override
   void initState() {
     super.initState();
+    loggedIn = checkLogin();
   }
 
   _fetchData() async {
@@ -133,8 +134,7 @@ class _LoginState extends State<Login>
             backgroundColor: Color(0xff1d1d1d),
           ),
           body: FutureBuilder<bool>(
-            future:
-                checkLogin(), // a previously-obtained Future<String> or null
+            future: loggedIn, // a previously-obtained Future<String> or null
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
               List<Widget> children;
               if (snapshot.hasData) {
