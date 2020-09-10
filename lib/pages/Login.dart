@@ -18,7 +18,6 @@ class _LoginState extends State<Login>
     with AutomaticKeepAliveClientMixin<Login> {
   var userName = "";
   var password = "";
-  Future<bool> loggedIn;
   TextEditingController userNameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   var userDetail;
@@ -30,7 +29,6 @@ class _LoginState extends State<Login>
   @override
   void initState() {
     super.initState();
-    loggedIn = checkLogin();
   }
 
   _fetchData() async {
@@ -134,13 +132,15 @@ class _LoginState extends State<Login>
             backgroundColor: Color(0xff1d1d1d),
           ),
           body: FutureBuilder<bool>(
-            future: loggedIn, // a previously-obtained Future<String> or null
+            future:
+                checkLogin(), // a previously-obtained Future<String> or null
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
               List<Widget> children;
               if (snapshot.hasData) {
                 if (snapshot.data == true) {
-                  children = <Widget>[
-                    new Column(children: <Widget>[
+                  return new ListView(children: <Widget>[
+                    Center(
+                        child: new Column(children: <Widget>[
                       Text(
                         "Welcome back " + userDetail + "!",
                         textAlign: TextAlign.start,
@@ -158,8 +158,8 @@ class _LoginState extends State<Login>
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xff191919)),
                           ))
-                    ])
-                  ];
+                    ]))
+                  ]);
                 } else {
                   return new Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -167,7 +167,7 @@ class _LoginState extends State<Login>
                         Container(
                           margin: const EdgeInsets.only(top: 70),
                         ),
-                        Column(
+                        Wrap(
                           children: <Widget>[
                             TextField(
                               autofocus: false,
@@ -267,7 +267,7 @@ class _LoginState extends State<Login>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: children,
+                  children: <Widget>[new CircularProgressIndicator()],
                 ),
               );
             },

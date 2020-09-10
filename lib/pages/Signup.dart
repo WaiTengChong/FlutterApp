@@ -26,7 +26,7 @@ class _SignupState extends State<Signup> {
         ),
         body: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: new Column(children: <Widget>[
+            child: new Wrap(children: <Widget>[
               Container(
                 margin: const EdgeInsets.only(top: 70),
               ),
