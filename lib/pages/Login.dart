@@ -230,7 +230,7 @@ class _LoginState extends State<Login>
                                           color: Color(0xff191919)),
                                     ))),
                             Container(
-                                margin: const EdgeInsets.only(top: 30),
+                                margin: const EdgeInsets.only(top: 30, left: 50),
                                 child: FlatButton.icon(
                                     icon: Icon(Icons.arrow_right),
                                     color: Colors.white,
