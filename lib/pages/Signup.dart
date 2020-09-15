@@ -107,7 +107,7 @@ class _SignupState extends State<Signup> {
                           )),
                       Container(
                         height: 30.0,
-                        margin: const EdgeInsets.only(top: 30),
+                        margin: const EdgeInsets.only(top: 30, left: 45),
                         width: double.infinity,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
