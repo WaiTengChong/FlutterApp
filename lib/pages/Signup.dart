@@ -57,7 +57,7 @@ class _SignupState extends State<Signup> {
                             borderRadius: BorderRadius.circular(25.7),
                           ),
                         ),
-                        //controller: userNameController,
+                        controller: userNameController,
                       ),
                       Container(
                           margin: const EdgeInsets.only(top: 30),
@@ -80,7 +80,7 @@ class _SignupState extends State<Signup> {
                                 borderRadius: BorderRadius.circular(25.7),
                               ),
                             ),
-                            //controller: passwordController,
+                            controller: passwordController,
                           )),
                       Container(
                           margin: const EdgeInsets.only(top: 30),
