@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import '../link.dart';
 
 class Signup extends StatefulWidget {
   static const String routeName = "/Signup";
@@ -8,12 +12,67 @@ class Signup extends StatefulWidget {
   _SignupState createState() => new _SignupState();
 }
 
-int gender = 1;
-int group;
-
 class _SignupState extends State<Signup> {
-  TextEditingController userNameController,
-      passwordController = new TextEditingController();
+  TextEditingController userNameController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
+
+  int group;
+
+  @override
+  void initState() {
+    setState(() {
+      group = 1;
+    });
+    super.initState();
+  }
+
+  Future<void> postData(context) {
+    print("Signing up...");
+
+    _postData(context);
+    return Future.value();
+  }
+
+  _postData(context) async {
+    Map data = {
+      'userName': userNameController.text,
+      'password': passwordController.text,
+      'email': emailController.text,
+      'gender': group.toString()
+    };
+    print("data = " + data.toString());
+    //encode Map to JSON
+    var body = json.encode(data);
+    print(body);
+
+    final response = await http.post(userLink,
+        headers: {"Content-Type": "application/json"}, body: body);
+
+    if (response.statusCode == 201) {
+      print(response.body);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text("User created. Welcome " + userNameController.text),
+          );
+        },
+      ).then((val) {
+        Navigator.of(context).pop();
+      });
+    } else {
+      print(response.body);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(json.decode(response.body)["error"]),
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +146,7 @@ class _SignupState extends State<Signup> {
                           child: TextField(
                             autofocus: false,
                             style: TextStyle(
-                                fontSize: 22.0, color: Color(0xFFbdc6cf)),
+                                fontSize: 22.0, color: Color(0xff191919)),
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
@@ -103,7 +162,7 @@ class _SignupState extends State<Signup> {
                                 borderRadius: BorderRadius.circular(25.7),
                               ),
                             ),
-                            //controller: emailController,
+                            controller: emailController,
                           )),
                       Container(
                         height: 30.0,
@@ -121,10 +180,10 @@ class _SignupState extends State<Signup> {
                                 groupValue: group,
                                 activeColor: Colors.white,
                                 onChanged: (int e) {
-                                  print(e);
                                   setState(() {
                                     group = e;
                                   });
+                                  print(e);
                                 }),
                             Padding(padding: EdgeInsets.all(5.00)),
                             Text("Female",
@@ -135,10 +194,10 @@ class _SignupState extends State<Signup> {
                                 groupValue: group,
                                 activeColor: Colors.white,
                                 onChanged: (int e) {
-                                  print(e);
                                   setState(() {
                                     group = e;
                                   });
+                                  print(e);
                                 }),
                           ],
                         ),
@@ -148,10 +207,9 @@ class _SignupState extends State<Signup> {
                           child: FlatButton.icon(
                               icon: Icon(Icons.arrow_right),
                               color: Colors.white,
-                              onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Signup())),
+                              onPressed: () {
+                                postData(context);
+                              },
                               label: Text(
                                 "Sign up",
                                 textAlign: TextAlign.center,

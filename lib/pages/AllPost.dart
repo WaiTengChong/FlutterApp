@@ -14,7 +14,7 @@ class AllPost extends StatefulWidget {
 }
 
 class _AllPostState extends State<AllPost>
-    with AutomaticKeepAliveClientMixin<AllPost> {
+    with AutomaticKeepAliveClientMixin<AllPost>, WidgetsBindingObserver {
   var _isLoading = false;
   var post;
 
@@ -24,10 +24,24 @@ class _AllPostState extends State<AllPost>
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     refresh().then((value) {
       print('Async done');
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _fetchData();
+    }
   }
 
   _fetchData() async {

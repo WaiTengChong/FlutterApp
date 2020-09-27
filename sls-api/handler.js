@@ -170,14 +170,23 @@ module.exports.createUser = (event, context, callback) => {
     !reqBody.userName ||
     reqBody.userName.trim() === '' ||
     !reqBody.gender ||
-    reqBody.gender.trim() === ''   ||
+    reqBody.gender.trim() === '' ||
     !reqBody.email ||
     reqBody.email.trim() === ''
   ) {
     return callback(
       null,
       response(400, {
-        error: 'User must have a UserName and password, they must not be empty'
+        error: 'User must have a UserName, password and email, they must not be empty'
+      })
+    );
+  }
+
+  if (!reqBody.email.includes('@') || !reqBody.email.includes('.com')) {
+    return callback(
+      null,
+      response(400, {
+        error: 'Please enter correct email address'
       })
     );
   }
@@ -203,20 +212,20 @@ module.exports.createUser = (event, context, callback) => {
     .promise()
     .then((res) => {
       if (res.Item) {
-      callback(null, response(404, { error: 'User already exists' }));
-      }else {
+        callback(null, response(404, { error: 'User already exists' }));
+      } else {
         return db.put({
-        TableName: usersTable,
-        Item: user
-      })
-      .promise()
-      .then((res) => {
-        callback(null, response(201, { success: 'User Created' }));
-      })
-    }
+          TableName: usersTable,
+          Item: user
+        })
+          .promise()
+          .then((res) => {
+            callback(null, response(201, { success: 'User Created' }));
+          })
+      }
     })
     .catch((err) => callback(null, response(err.statusCode, err)));
-  
+
 };
 
 //Fatch selected user
