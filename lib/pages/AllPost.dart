@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutterapp/pages/Post.dart';
 import 'package:flutterapp/pages/AddPost.dart';
 import 'package:flutterapp/link.dart';
+import 'package:flutterapp/main.dart';
 
 class AllPost extends StatefulWidget {
   static const String routeName = "/AllPost";

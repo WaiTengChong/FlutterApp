@@ -19,9 +19,10 @@ class AddPost extends StatelessWidget {
     print('checked loggedIn Value saved -- ' + (prefs.getString('userName')));
     var result = prefs.getString('userName');
 
-    if (result != "") {
+    if (result != "" || result != null) {
       userName = result;
     }
+    
     Map data = {
       'userName': userName,
       'title': titleController.text,

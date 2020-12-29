@@ -11,7 +11,7 @@ class Post extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff191919),
       appBar: AppBar(
         backgroundColor: Color(0xff1d1d1d),
         title: Text(detials["userName"]),
@@ -20,7 +20,7 @@ class Post extends StatelessWidget {
           child: Column(
         children: <Widget>[
           new Container(
-              color: Color(0xff1d1d1d),
+              color: Color(0xff222222),
               width: double.infinity,
               margin: const EdgeInsets.only(top: 10),
               padding: const EdgeInsets.only(top: 20, left: 20),
@@ -30,7 +30,7 @@ class Post extends StatelessWidget {
                 style: TextStyle(color: Color(0xff4A9BE0), fontSize: 15),
               )),
           new Container(
-              color: Color(0xff1d1d1d),
+              color: Color(0xff222222),
               width: double.infinity,
               padding: const EdgeInsets.only(top: 10, left: 20, bottom: 20),
               margin: const EdgeInsets.only(bottom: 30),
