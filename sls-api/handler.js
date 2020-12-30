@@ -45,7 +45,8 @@ module.exports.createPost = (event, context, callback) => {
     userName: reqBody.userName,
     title: reqBody.title,
     body: reqBody.body,
-    image: reqBody.image
+    image: reqBody.image,
+    comment: reqBody.comment
   };
 
   return db
