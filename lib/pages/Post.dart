@@ -13,9 +13,9 @@ class Post extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xff191919),
       appBar: AppBar(
-        backgroundColor: Color(0xff1d1d1d),
-        title: Text(detials["userName"]),
-      ),
+          backgroundColor: Color(0xff1d1d1d),
+          title: Text(detials["title"]),
+          ),
       body: SingleChildScrollView(
           child: Column(
         children: <Widget>[
@@ -25,7 +25,7 @@ class Post extends StatelessWidget {
               margin: const EdgeInsets.only(top: 10),
               padding: const EdgeInsets.only(top: 20, left: 20),
               child: Text(
-                detials["title"],
+                detials["userName"],
                 textAlign: TextAlign.start,
                 style: TextStyle(color: Color(0xff4A9BE0), fontSize: 15),
               )),

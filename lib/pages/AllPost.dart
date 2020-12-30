@@ -82,8 +82,10 @@ class _AllPostState extends State<AllPost>
             appBar: new AppBar(
               leading: new IconButton(
                 icon: new Icon(Icons.add, color: Colors.white),
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddPost())),
+                onPressed: () => Navigator.push(
+                  context,
+                    MaterialPageRoute(
+                      builder: (context) => AddPost())),
               ),
               title: new Text("Posts"),
               backgroundColor: Color(0xff1d1d1d),

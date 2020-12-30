@@ -22,7 +22,7 @@ class AddPost extends StatelessWidget {
     if (result != "" || result != null) {
       userName = result;
     }
-    
+
     Map data = {
       'userName': userName,
       'title': titleController.text,
@@ -75,6 +75,7 @@ class AddPost extends StatelessWidget {
       resizeToAvoidBottomPadding: false,
       backgroundColor: Color(0xff191919),
       appBar: AppBar(
+        brightness: Brightness.dark,
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff1d1d1d),
         title: Text(
@@ -95,46 +96,65 @@ class AddPost extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                  padding: const EdgeInsets.only(top: 20.0),
                   child: new Theme(
                       data: new ThemeData(
                         primaryColor: Colors.white,
                         primaryColorDark: Colors.white,
                       ),
                       child: TextField(
+                        cursorColor: Colors.white,
                         controller: titleController,
                         style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Color(0xff222222),
                             border: OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.white, width: 3.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 1.0),
+                            ),
                             contentPadding: new EdgeInsets.fromLTRB(
-                                20.0, 10.0, 100.0, 10.0),
+                                10.0, 30.0, 100.0, 10.0),
                             labelText: 'Title',
                             alignLabelWithHint: true,
                             labelStyle: TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.grey)),
+                                color: Colors.white)),
                       ))),
               Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                  padding: EdgeInsets.only(top: 30.0),
                   child: new Theme(
                       data: new ThemeData(
                         primaryColor: Colors.white,
                         primaryColorDark: Colors.white,
                       ),
                       child: TextFormField(
+                        cursorColor: Colors.white,
                         controller: contentController,
                         keyboardType: TextInputType.multiline,
                         textInputAction: TextInputAction.newline,
                         maxLines: 16,
                         maxLength: 512,
                         maxLengthEnforced: true,
-                        //initialValue: _content,
                         decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Color(0xff222222),
                             labelText: 'Content',
-                            hintText: 'Enter contetn',
-                            fillColor: Color(0xffc8c0b9),
+                            hintText: 'Enter content',
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.white, width: 3.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 1.0),
+                            ),
                             border: OutlineInputBorder(),
                             alignLabelWithHint: true,
                             hintStyle: TextStyle(
@@ -144,11 +164,10 @@ class AddPost extends StatelessWidget {
                             labelStyle: TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.grey)),
+                                color: Colors.white)),
                         validator: (value) =>
                             value.isNotEmpty ? null : 'content can\'t be empty',
                         style: TextStyle(fontSize: 18.0, color: Colors.white),
-                        //onSaved: (content) => _content = content,
                       )))
             ],
           )),
