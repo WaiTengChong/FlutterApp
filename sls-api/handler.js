@@ -46,7 +46,7 @@ module.exports.createPost = (event, context, callback) => {
     title: reqBody.title,
     body: reqBody.body,
     image: reqBody.image,
-    comment: reqBody.comment
+    comments: reqBody.comments
   };
 
   return db
@@ -115,7 +115,7 @@ module.exports.getPost = (event, context, callback) => {
 module.exports.updatePost = (event, context, callback) => {
   const id = event.pathParameters.id;
   const reqBody = JSON.parse(event.body);
-  const { body, title } = reqBody;
+  const { comments } = reqBody;
 
   const params = {
     Key: {
@@ -123,10 +123,9 @@ module.exports.updatePost = (event, context, callback) => {
     },
     TableName: postsTable,
     ConditionExpression: 'attribute_exists(id)',
-    UpdateExpression: 'SET title = :title, body = :body',
+    UpdateExpression: 'SET comments = :comments',
     ExpressionAttributeValues: {
-      ':title': title,
-      ':body': body
+      ':comments': comments
     },
     ReturnValues: 'ALL_NEW'
   };

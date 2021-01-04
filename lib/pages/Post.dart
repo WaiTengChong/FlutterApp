@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutterapp/pages/ReplyPost.dart';
 
 class Post extends StatelessWidget {
   static const String routeName = "/Post";
@@ -15,6 +16,12 @@ class Post extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color(0xff1d1d1d),
         title: Text(detials["title"]),
+        actions: <Widget>[
+          new IconButton(
+              icon: new Icon(Icons.reply, color: Colors.white),
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ReplyPost(detials))))
+        ],
       ),
       body: SingleChildScrollView(
           child: Column(
@@ -76,11 +83,11 @@ class Post extends StatelessWidget {
             primary: false,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: this.detials["comment"] != null
-                ? this.detials["comment"].length
+            itemCount: this.detials["comments"] != null
+                ? this.detials["comments"].length
                 : 0,
             itemBuilder: (context, rowNumber) {
-              final comment = this.detials["comment"][rowNumber];
+              final comments = this.detials["comments"][rowNumber];
               return new Column(
                 children: <Widget>[
                   new Container(
@@ -89,7 +96,7 @@ class Post extends StatelessWidget {
                       margin: const EdgeInsets.only(top: 20),
                       padding: const EdgeInsets.only(top: 20, left: 20),
                       child: Text(
-                        comment["userName"],
+                        comments["userName"],
                         textAlign: TextAlign.start,
                         style:
                             TextStyle(color: Color(0xff4A9BE0), fontSize: 15),
@@ -101,7 +108,7 @@ class Post extends StatelessWidget {
                           const EdgeInsets.only(top: 10, left: 20, bottom: 20),
                       margin: const EdgeInsets.only(bottom: 10),
                       child: new Text(
-                        comment["body"],
+                        comments["body"],
                         textAlign: TextAlign.start,
                         style:
                             TextStyle(color: Color(0xffc8c0b9), fontSize: 20),

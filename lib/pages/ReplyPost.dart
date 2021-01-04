@@ -1,20 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/object/comment.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutterapp/link.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AddPost extends StatelessWidget {
-  static const String routeName = "/AddPost";
-
-  TextEditingController titleController = new TextEditingController();
+class ReplyPost extends StatelessWidget {
+  static const String routeName = "/ReplyPost";
+  final comments;
+  var time;
+  ReplyPost(this.comments);
   TextEditingController contentController = new TextEditingController();
 
   _postData(context) async {
     var userName = "Unknown User";
     final prefs = await SharedPreferences.getInstance();
+    var allComments = this.comments["comments"];
 
     print('checked loggedIn Value saved -- ' + (prefs.getString('userName')));
     var result = prefs.getString('userName');
@@ -24,19 +27,24 @@ class AddPost extends StatelessWidget {
     }
 
     Map data = {
+      'date' : time,
       'userName': userName,
-      'title': titleController.text,
       'body': contentController.text
     };
-    print("data = " + data.toString());
-    //encode Map to JSON
-    var body = json.encode(data);
-    print(body);
 
-    final response = await http.post(addPostLink,
+   allComments.add(data);
+
+    Map addedComments = {
+      'comments': allComments
+    };
+    //encode Map to JSON
+    var body = json.encode(addedComments);
+    print('body = ' + body);
+
+    final response = await http.put(addPostLink+'/'+this.comments['id'],
         headers: {"Content-Type": "application/json"}, body: body);
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       print(response.body);
       showDialog(
         context: context,
@@ -61,12 +69,30 @@ class AddPost extends StatelessWidget {
     }
   }
 
-  Future<void> postData(context) {
-    print("Adding post...");
 
+  Future<String> _fetchComment() async {
+    print("Attempting to fetch data from api");
+
+    final response = await http.get(timeLink);
+
+    if (response.statusCode == 200) {
+      final map = json.decode(response.body);
+      return map['currentDateTime'].toString();
+
+    }else{
+      return "error";
+    }
+    
+  }
+
+  Future<void> postData(context) async{
+    print("Adding comment...");
+    time = await _fetchComment();
+    
     _postData(context);
     return Future.value();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +105,7 @@ class AddPost extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Color(0xff1d1d1d),
         title: Text(
-          "Add Post",
+          "Reply Post",
           textAlign: TextAlign.start,
           style: TextStyle(color: Colors.white),
         ),
@@ -95,38 +121,6 @@ class AddPost extends StatelessWidget {
           reverse: true,
           child: Column(
             children: <Widget>[
-              Padding(
-                  padding: const EdgeInsets.only(top: 20.0, left : 15 , right: 15),
-                  child: new Theme(
-                      data: new ThemeData(
-                        primaryColor: Colors.white,
-                        primaryColorDark: Colors.white,
-                      ),
-                      child: TextField(
-                        cursorColor: Colors.white,
-                        controller: titleController,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xff222222),
-                            border: OutlineInputBorder(),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.white, width: 3.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 1.0),
-                            ),
-                            contentPadding: new EdgeInsets.fromLTRB(
-                                10.0, 30.0, 100.0, 10.0),
-                            labelText: 'Title',
-                            alignLabelWithHint: true,
-                            labelStyle: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white)),
-                      ))),
               Padding(
                   padding: EdgeInsets.only(top: 30.0, left : 15 , right: 15),
                   child: new Theme(
@@ -145,8 +139,8 @@ class AddPost extends StatelessWidget {
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Color(0xff222222),
-                            labelText: 'Content',
-                            hintText: 'Enter content',
+                            labelText: 'Comment',
+                            hintText: 'Enter comment',
                             focusedBorder: OutlineInputBorder(
                               borderSide:
                                   BorderSide(color: Colors.white, width: 3.0),
