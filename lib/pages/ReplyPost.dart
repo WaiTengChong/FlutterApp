@@ -54,7 +54,7 @@ class ReplyPost extends StatelessWidget {
           );
         },
       ).then((val) {
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(true);
       });
     } else {
       print(response.body);
