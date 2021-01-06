@@ -26,7 +26,8 @@ class AddPost extends StatelessWidget {
     Map data = {
       'userName': userName,
       'title': titleController.text,
-      'body': contentController.text
+      'body': contentController.text,
+      'comments': []
     };
     print("data = " + data.toString());
     //encode Map to JSON
