@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/object/comment.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -9,17 +8,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ReplyPost extends StatelessWidget {
   static const String routeName = "/ReplyPost";
-  final comments;
+  final post;
   var time;
-  ReplyPost(this.comments);
+  ReplyPost(this.post);
   TextEditingController contentController = new TextEditingController();
 
   _postData(context) async {
     var userName = "Unknown User";
     final prefs = await SharedPreferences.getInstance();
-    var allComments = this.comments["comments"];
 
-    print('checked loggedIn Value saved -- ' + (prefs.getString('userName')));
+     print("Attempting to fetch data from api");
+
+    final getResponse = await http.get(addPostLink + "/" + post['id']);
+
+    if (getResponse.statusCode == 200) {
+      final map = json.decode(getResponse.body);
+     var allComments = map["comments"];
+
+       print('checked loggedIn Value saved -- ' + (prefs.getString('userName')));
     var result = prefs.getString('userName');
 
     if (result != "" || result != null) {
@@ -41,7 +47,7 @@ class ReplyPost extends StatelessWidget {
     var body = json.encode(addedComments);
     print('body = ' + body);
 
-    final response = await http.put(addPostLink+'/'+this.comments['id'],
+    final response = await http.put(addPostLink+'/'+this.post['id'],
         headers: {"Content-Type": "application/json"}, body: body);
 
     if (response.statusCode == 200) {
@@ -67,8 +73,18 @@ class ReplyPost extends StatelessWidget {
         },
       );
     }
+    } else {
+      print(getResponse.body);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(json.decode(getResponse.body)["error"]),
+          );
+        },
+      );
   }
-
+  }
 
   Future<String> _fetchComment() async {
     print("Attempting to fetch data from api");

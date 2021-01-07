@@ -27,6 +27,7 @@ class _PostState extends State<Post>
   @override
   void initState() {
     newPost = widget.detials;
+    fromReply = false;
     super.initState();
   }
 
@@ -71,14 +72,14 @@ class _PostState extends State<Post>
               onPressed: () => _navigateAndRefresh(context))
         ],
       ),
-      body: new RefreshIndicator(onRefresh: refresh, child: _body(fromReply)),
+      body: new RefreshIndicator(onRefresh: refresh, child: _body(fromReply ?? false)),
     );
   }
 
-  Widget _body(bool fromReply) {
+  Widget _body(bool isFromRely) {
     var post;
-    print("_body in with $fromReply");
-    if (fromReply) {
+    print("_body in with $isFromRely");
+    if (isFromRely) {
       post = this.newPost;
     } else {
       post = widget.detials;
