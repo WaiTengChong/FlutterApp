@@ -4,6 +4,8 @@ custom:
   settings:
     POSTS_TABLE: posts
     USERS_TABLE: users
+    IMAGE_UPLOAD_BUCKET: images-tony-chong-1995
+    region: ${self:provider.region}
 
 provider:
   name: aws
@@ -20,9 +22,11 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
+        - s3:*
      Resource:
       - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.POSTS_TABLE}"
       - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.USERS_TABLE}"
+      - "arn:aws:s3:::${self:custom.settings.IMAGE_UPLOAD_BUCKET}/*"
  
 functions:
   createPost:
@@ -73,6 +77,13 @@ functions:
     - http:
         path: /user/{userName}/{password}
         method: get
+  imageUpload:
+    handler: handler.imageHandler
+    events:
+    - http:
+        path: /image-upload
+        method: post
+        cors: true
         
 resources:
   Resources:
@@ -102,4 +113,9 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:custom.settings.USERS_TABLE}
+    ImageUploadBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+          BucketName: ${self:custom.settings.IMAGE_UPLOAD_BUCKET}
+          AccessControl: PublicReadWrite
 
