@@ -261,52 +261,52 @@ module.exports.getUser = (event, context, callback) => {
 
 module.exports.imageHandler = async event => {
   try {
-      const body = JSON.parse(event.body);
+    const body = JSON.parse(event.body);
 
-      if (!body || !body.image || !body.mime) {
-          return response(400, {message: 'incorrect body on request'});
-      }
+    if (!body || !body.image || !body.mime) {
+      return response(400, { message: 'incorrect body on request' });
+    }
 
-      if (!allowedMimes.includes(body.mime)) {
-          return response(400, {message: 'mime is not allowed'});
-      }
+    if (!allowedMimes.includes(body.mime)) {
+      return response(400, { message: 'mime is not allowed' });
+    }
 
-      let imageData = body.image;
-      if (body.image.substr(0, 7) === 'base64,') {
-          imageData = body.image.substr(7, body.image.length);
-      }
+    let imageData = body.image;
+    if (body.image.substr(0, 7) === 'base64,') {
+      imageData = body.image.substr(7, body.image.length);
+    }
 
-      const buffer = Buffer.from(imageData, 'base64');
-      const fileInfo = await fileType.fromBuffer(buffer);
-      const detectedExt = fileInfo.ext;
-      const detectedMime = fileInfo.mime;
+    const buffer = Buffer.from(imageData, 'base64');
+    const fileInfo = await fileType.fromBuffer(buffer);
+    const detectedExt = fileInfo.ext;
+    const detectedMime = fileInfo.mime;
 
-      if (detectedMime !== body.mime) {
-          return response(400, {message: 'mime types dont match detectedMime = ' + detectedMime + 'and body.mime = '+ body.mime } );
-      }
+    if (detectedMime !== body.mime) {
+      return response(400, { message: 'mime types dont match detectedMime = ' + detectedMime + 'and body.mime = ' + body.mime });
+    }
 
-      const name = uuid();
-      const key = `${name}.${detectedExt}`;
+    const name = uuid();
+    const key = `${name}.${detectedExt}`;
 
-      console.log(`writing image to bucket called ${key}`);
+    console.log(`writing image to bucket called ${key}`);
 
-      await s3
-          .putObject({
-              Body: buffer,
-              Key: key,
-              ContentType: body.mime,
-              Bucket: imagesTable,
-              ACL: 'public-read',
-          })
-          .promise();
+    await s3
+      .putObject({
+        Body: buffer,
+        Key: key,
+        ContentType: body.mime,
+        Bucket: imagesTable,
+        ACL: 'public-read',
+      })
+      .promise();
 
-      const url = `https://${imagesTable}.s3-${process.env.region}.amazonaws.com/${key}`;
-      return response(200, {
-          imageURL: url,
-      });
+    const url = `https://${imagesTable}.s3-${process.env.region}.amazonaws.com/${key}`;
+    return response(200, {
+      imageURL: url,
+    });
   } catch (error) {
-      console.log('error', error);
+    console.log('error', error);
 
-      return response(400, {message: error.message || 'failed to upload image'});
+    return response(400, { message: error.message || 'failed to upload image' });
   }
 };
