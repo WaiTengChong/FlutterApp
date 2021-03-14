@@ -47,7 +47,7 @@ class _SignupState extends State<Signup> {
     print(body);
 
     final response = await http.post(userLink,
-        headers: {"Content-Type": "application/json"}, body: body);
+        headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"}, body: body);
 
     if (response.statusCode == 201) {
       print(response.body);

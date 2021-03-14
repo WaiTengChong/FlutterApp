@@ -35,48 +35,84 @@ functions:
     - http:
         path: /post
         method: post
+        cors:
+          origin: '*'
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+            - Access-Control-Allow-Origin 
+            - Access-Control-Allow-Credentials
+            - Access-Control-Allow-Methods
+            - Access-Control-Allow-Headers
+        allowCredentials: true
+        cacheControl: 'max-age=600, s-maxage=600, proxy-revalidate'
   getAllPosts:
     handler: handler.getAllPosts
     events:
     - http:
         path: /posts
         method: get
+        cors: true
   getPosts:
     handler: handler.getPosts
     events:
     - http:
         path: /posts/{number}
         method: get
+        cors: true
   getPost:
     handler: handler.getPost
     events:
     - http:
         path: /post/{id}
         method: get
+        cors: true
   updatePost:
     handler: handler.updatePost
     events:
     - http:
         path: /post/{id}
         method: put
+        cors:
+          origin: '*'
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+            - Access-Control-Allow-Origin 
+            - Access-Control-Allow-Credentials
+            - Access-Control-Allow-Methods
+            - Access-Control-Allow-Headers
+        allowCredentials: true
+        cacheControl: 'max-age=600, s-maxage=600, proxy-revalidate'
   deletePost:
     handler: handler.deletePost
     events:
     - http:
         path: /post/{id}
         method: delete
+        cors: true
   createUser:
     handler: handler.createUser
     events:
     - http:
         path: /user
         method: post
+        cors: true
   getUser:
     handler: handler.getUser
     events:
     - http:
         path: /user/{userName}/{password}
         method: get
+        cors: true
   imageUpload:
     handler: handler.imageHandler
     events:

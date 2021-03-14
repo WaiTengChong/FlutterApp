@@ -48,7 +48,7 @@ class ReplyPost extends StatelessWidget {
     print('body = ' + body);
 
     final response = await http.put(addPostLink+'/'+this.post['id'],
-        headers: {"Content-Type": "application/json"}, body: body);
+        headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"}, body: body);
 
     if (response.statusCode == 200) {
       print(response.body);
@@ -114,7 +114,6 @@ class ReplyPost extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      resizeToAvoidBottomPadding: false,
       backgroundColor: Color(0xff191919),
       appBar: AppBar(
         brightness: Brightness.dark,

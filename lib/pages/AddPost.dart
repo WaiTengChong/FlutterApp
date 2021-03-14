@@ -35,7 +35,7 @@ class AddPost extends StatelessWidget {
     print(body);
 
     final response = await http.post(addPostLink,
-        headers: {"Content-Type": "application/json"}, body: body);
+        headers: {"Content-Type": "application/json","Access-Control-Allow-Origin": "*"}, body: body);
 
     if (response.statusCode == 201) {
       print(response.body);
@@ -73,7 +73,6 @@ class AddPost extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      resizeToAvoidBottomPadding: false,
       backgroundColor: Color(0xff191919),
       appBar: AppBar(
         brightness: Brightness.dark,

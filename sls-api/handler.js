@@ -12,7 +12,11 @@ const imagesTable = process.env.IMAGE_UPLOAD_BUCKET;
 function response(statusCode, message) {
   return {
     statusCode: statusCode,
-    body: JSON.stringify(message)
+    body: JSON.stringify(message),
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+    }
   };
 }
 
