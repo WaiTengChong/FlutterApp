@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "file-type": "^14.7.1",
+    "file-type": "^16.5.4",
     "uuid": "^8.1.0"
   }
 }
