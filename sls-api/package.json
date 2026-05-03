@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "file-type": "^14.7.1",
-    "uuid": "^8.1.0"
+    "uuid": "^14.0.0"
   }
 }
